@@ -1,0 +1,18 @@
+{
+  "singleQuote": true,
+  "printWidth": 70,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "semi": false,
+  "useTabs": false,
+  "jsxBracketSameLine": false,
+  "overrides": [
+    {
+      "files": "*app/config/types.ts",
+      "options": {
+        "semi": true
+      }
+    }
+  ]
+}

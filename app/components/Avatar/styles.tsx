@@ -5,7 +5,6 @@ export default StyleSheet.create({
   container: {
     width: 72,
     height: 72,
-    padding: 4,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -18,11 +17,12 @@ export default StyleSheet.create({
     borderRadius: 32,
   },
   notSeenYetStyle: {
-    backgroundColor: colors.warning_yellow,
+    borderWidth: 3,
+    borderColor: colors.warning_yellow,
   },
   avatarStyle: {
-    width: 58,
-    height: 58,
+    width: 56,
+    height: 56,
     margin: 4,
     borderRadius: 30,
     overflow: 'hidden',

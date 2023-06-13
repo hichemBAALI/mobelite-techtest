@@ -4,7 +4,7 @@ import CachedImage from '../Image'
 import styles from './styles'
 
 export type AvatarType = {
-  thumb: string
+  thumb?: string
   isSeen?: boolean
   onPress: (arg: any) => void
 }

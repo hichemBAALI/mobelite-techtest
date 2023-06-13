@@ -38,8 +38,19 @@ export const slice = createSlice({
     ) => {
       state.userImages = action.payload
     },
-    SetSeen: (state, action: PayloadAction<UserImageType[]>) => {
-      state.userImages = action.payload
+    SetSeen: (
+      state,
+      action: PayloadAction<Partial<UserImageType>>,
+    ) => {
+      state.userImages = [
+        ...state?.userImages?.filter(
+          (userImage) => userImage?.id !== action?.payload?.id,
+        ),
+        {
+          ...action?.payload,
+          isSeen: true,
+        },
+      ]
     },
   },
 })

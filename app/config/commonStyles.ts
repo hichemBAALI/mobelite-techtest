@@ -13,7 +13,6 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    alignItems: 'center',
     backgroundColor: '#ffffff',
   },
   nonPaddedContainer: {

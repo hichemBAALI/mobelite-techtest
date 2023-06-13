@@ -25,7 +25,7 @@ const persistConfig = {
   timeout: 0,
   storage: AsyncStorage,
   // only not persisted reducers
-  blacklist: [],
+  blacklist: ['connection', 'collection'],
 }
 
 const store = configureStore({

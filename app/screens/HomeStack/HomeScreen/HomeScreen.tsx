@@ -17,6 +17,8 @@ import MyText from '../../../components/MyText'
 import { ALIGN } from '../../../config/constants'
 import MyList from '../../../components/MyList'
 import styles from './styles'
+import ImageItem from '../../../components/ImageItem/ImageItem'
+import SearchField from '../../../components/SearchField'
 
 const HomeScreen: FC = () => {
   const dispatch = useAppDispatch()
@@ -25,9 +27,26 @@ const HomeScreen: FC = () => {
   const [lUserImages, setUserImages] =
     useState<Partial<UserImageType>[]>(userImages)
 
+  const [lImages, setImages] =
+    useState<Partial<UserImageType>[]>(userImages)
+
   //handlers
   const handleAvatarPressed = (userImage: Partial<UserImageType>) => {
     dispatch(SetSeen(userImage))
+  }
+
+  const handleImagePressed = (userImage: Partial<UserImageType>) => {
+    console.log(userImage)
+  }
+
+  const handleImageSearch = (textToSearch: string) => {
+    setImages(
+      userImages?.filter(
+        (userImage) =>
+          userImage?.user?.name.includes(textToSearch) ||
+          userImage?.user?.username.includes(textToSearch),
+      ),
+    )
   }
 
   //useEffects
@@ -37,6 +56,7 @@ const HomeScreen: FC = () => {
 
   useEffect(() => {
     setUserImages(userImages)
+    setImages(userImages)
   }, [userImages])
   //renders
   const AvatarWithUserName: FC = (props: Partial<UserImageType>) => (
@@ -77,9 +97,39 @@ const HomeScreen: FC = () => {
     )
   }
 
+  const ImageSearcherField = () => (
+    <SearchField
+      onTyping={handleImageSearch}
+      placeholder="Search an image"
+    />
+  )
+
+  const UsersBodyList = (props: any) => {
+    const { data } = props
+    return (
+      <MyList
+        useFlatList
+        data={data}
+        keyboardShouldPersistTaps="never"
+        recalculateHiddenLayout
+        numColumns={2}
+        renderItem={({ item }: any) => (
+          <ImageItem
+            image={item?.urls?.regular}
+            name={`@${item?.user?.username?.toLowerCase()}`}
+            date={item?.createdAt}
+            onPress={() => handleImagePressed(item)}
+          />
+        )}
+      />
+    )
+  }
+
   return (
     <SafeAreaView style={commonStyles.container}>
       <UsersHeaderList data={lUserImages} />
+      <ImageSearcherField />
+      <UsersBodyList data={lImages} />
     </SafeAreaView>
   )
 }

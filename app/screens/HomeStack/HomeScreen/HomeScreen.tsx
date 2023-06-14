@@ -17,7 +17,7 @@ import {
 import Avatar from '../../../components/Avatar'
 import commonStyles from '../../../config/commonStyles'
 import MyText from '../../../components/MyText'
-import { ALIGN } from '../../../config/constants'
+import { ALIGN, DETAIL_SCREEN } from '../../../config/constants'
 import MyList from '../../../components/MyList'
 import styles from './styles'
 import ImageItem from '../../../components/ImageItem/ImageItem'
@@ -25,8 +25,9 @@ import SearchField from '../../../components/SearchField'
 import Iconsax from '../../../components/Iconsax'
 import colors from '../../../config/colors'
 
-const HomeScreen: FC = () => {
+const HomeScreen: FC = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
+  const { navigate } = navigation
   const { userImages } = useAppSelector((state) => state?.collection)
 
   const [lUserImages, setUserImages] =
@@ -59,7 +60,9 @@ const HomeScreen: FC = () => {
   }
 
   const handleImagePressed = (userImage: Partial<UserImageType>) => {
-    console.log(userImage)
+    navigate(DETAIL_SCREEN, {
+      userImage,
+    })
   }
 
   const handleImageSearch = (textToSearch: string) => {

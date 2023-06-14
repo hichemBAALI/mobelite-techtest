@@ -9,6 +9,7 @@ import { CLIENT_ID } from '../../config/env'
 export type UserImageType = {
   id?: string
   createdAt?: string
+  updatedAt?: string
   urls: {
     thumb: string
     regular: string
@@ -66,6 +67,7 @@ const ReqGetUserImages: Function = () => (dispatch: any) =>
         const serializedUserImages = data?.map((userImage: any) => ({
           id: userImage?.id,
           createdAt: userImage?.created_at,
+          updatedAt: userImage?.updated_at,
           urls: {
             thumb: userImage?.urls?.thumb,
             regular: userImage?.urls?.regular,

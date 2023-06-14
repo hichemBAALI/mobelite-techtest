@@ -5,6 +5,7 @@ import {
   CommonActions,
 } from '@react-navigation/native'
 import {
+  DETAIL_SCREEN,
   HOME_SCREEN,
   HOME_STACK,
   SPLASH_SCREEN,
@@ -13,6 +14,7 @@ import {
 import SplashScreen from '../screens/SplashStack/SplashScreen'
 import { useAppSelector } from '../state/redux-hooks'
 import HomeScreen from '../screens/HomeStack/HomeScreen'
+import DetailScreen from '../screens/HomeStack/DetailScreen'
 
 const noHeader = {
   headerShown: false,
@@ -56,6 +58,11 @@ const HomeStackScreens: FC = () => {
       <HomeStack.Screen
         name={HOME_SCREEN}
         component={HomeScreen}
+        options={noHeader}
+      />
+      <HomeStack.Screen
+        name={DETAIL_SCREEN}
+        component={DetailScreen}
         options={noHeader}
       />
     </HomeStack.Navigator>

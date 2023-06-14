@@ -22,7 +22,9 @@ and mostly depends on the different libraries listed in the [package.json]
 - Android: `yarn run-android-[env]`
 - iOS: `yarn run-ios-[env]`
 - Ex: To build the app with the development env on Android just run:
-  `yarn run-android-stg`
+  `yarn run-android-stg` for debug
+  OR
+  `run-android-dev-assemble` for release
 
 ## Git workflow
 

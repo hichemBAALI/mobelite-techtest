@@ -146,4 +146,3 @@ axiosInstance.interceptors.response.use(
 
 // api endpoints
 export const API_POST_TOKEN_REFRESH = '/accounts/token/refresh/'
-export const API_GET_PHOTOS = '/photos/random/'

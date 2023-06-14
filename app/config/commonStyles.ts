@@ -12,7 +12,8 @@ export default StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingVertical: 20,
+    padding: 20,
+    alignItems: 'center',
     backgroundColor: '#ffffff',
   },
   nonPaddedContainer: {

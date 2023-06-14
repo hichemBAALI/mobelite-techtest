@@ -145,6 +145,7 @@ const HomeScreen: FC = () => {
       <MyList
         useFlatList
         data={data}
+        removeClippedSubviews={false}
         keyboardShouldPersistTaps="never"
         recalculateHiddenLayout
         numColumns={2}
@@ -163,7 +164,7 @@ const HomeScreen: FC = () => {
   return (
     <SafeAreaView style={commonStyles.container}>
       <UsersHeaderList data={lUserImages} />
-      <ImageSearcherField />
+      {ImageSearcherField()}
       <UsersBodyList data={lImages} />
       <ImageGallery
         close={closeGallery}

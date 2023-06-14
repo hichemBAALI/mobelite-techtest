@@ -1,5 +1,7 @@
 import { Platform } from 'react-native'
 
+import dayjs from 'dayjs'
+
 const isAndroidPlatform = Platform.OS === 'android'
 
 const toCamelCase = (jsonString: string) =>
@@ -16,4 +18,7 @@ const toEs6Object = (json: any) => {
   }
 }
 
-export { isAndroidPlatform, toCamelCase, toEs6Object }
+const dateFormat = (date: string, format = 'DD MMM YYYY') =>
+  dayjs(date).format(format)
+
+export { isAndroidPlatform, toCamelCase, toEs6Object, dateFormat }

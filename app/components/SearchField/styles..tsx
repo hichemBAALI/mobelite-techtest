@@ -1,14 +1,21 @@
 import { StyleSheet } from 'react-native'
-import colors from '../../config/colors'
 
 export default StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  outlinedContainer: {
+    margin: 12,
+    borderRadius: 16,
+    backgroundColor: 'transparent',
+  },
+
+  containerStyle: {
+    margin: 12,
+    height: 36,
+    backgroundColor: 'transparent',
+  },
+  innerStyle: {
     justifyContent: 'center',
-    alignSelf: 'center',
-    marginHorizontal: 20,
-    zIndex: 1000,
+
+    backgroundColor: 'transparent',
   },
 
   defaultInnerStyle: {
@@ -18,12 +25,8 @@ export default StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 16,
   },
-  defaultStyle: {
-    color: colors.white,
-  },
-  closeStyle: {
+  iconStyle: {
     alignItems: 'center',
-    alignSelf: 'center',
-    marginStart: 8,
+    justifyContent: 'center',
   },
 })

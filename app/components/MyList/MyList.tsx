@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useCallback } from 'react'
 import { RefreshControl, View } from 'react-native'
 import { SwipeListView } from 'react-native-swipe-list-view'
-import { listLoader } from '../../config/animations'
+import { refreshListLoader } from '../../config/animations'
 import colors from '../../config/colors'
 import { width } from '../../config/constants'
 import Loader from '../Loader'
@@ -21,7 +21,11 @@ export type MyListProps = React.ComponentProps<
 const MyList: FC<MyListProps> = (props: MyListProps) => {
   const loaderRender = () => (
     <View style={styles.indicatorContainer}>
-      <Loader size={width - 40} isLoading source={listLoader} />
+      <Loader
+        size={width - 40}
+        isLoading
+        source={refreshListLoader}
+      />
     </View>
   )
 

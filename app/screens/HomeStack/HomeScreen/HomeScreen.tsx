@@ -37,11 +37,12 @@ const HomeScreen: FC = () => {
 
   const [isOpen, setIsOpen] = useState(false)
   const [currentUserImageIndex, setCurrentUserImageIndex] =
-    useState<number>()
+    useState<number>(0)
 
   const openGallery = () => setIsOpen(true)
   const closeGallery = () => {
     setIsOpen(false)
+    dispatch(SetSeen(lUserImages[currentUserImageIndex]))
     return true
   }
 
@@ -50,7 +51,6 @@ const HomeScreen: FC = () => {
     userImage: Partial<UserImageType>,
     currentIndex: number,
   ) => {
-    dispatch(SetSeen(userImage))
     await setCurrentUserImageIndex(currentIndex)
     await openGallery()
   }

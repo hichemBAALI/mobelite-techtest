@@ -18,5 +18,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.5,
     borderColor: colors.dark_gray_300,
   },
+  closeGalleryContainer: {
+    width: 48,
+    height: 48,
+    position: 'absolute',
+    top: 20,
+    right: 0,
+    zIndex: 100000,
+  },
 })
 export default styles

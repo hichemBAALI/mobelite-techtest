@@ -1,7 +1,10 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { FC, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { View } from 'react-native'
+import { BackHandler, View } from 'react-native'
+import { ImageGallery } from '@georstat/react-native-image-gallery'
+import { TouchableRipple } from 'react-native-paper'
 import {
   useAppDispatch,
   useAppSelector,
@@ -19,6 +22,8 @@ import MyList from '../../../components/MyList'
 import styles from './styles'
 import ImageItem from '../../../components/ImageItem/ImageItem'
 import SearchField from '../../../components/SearchField'
+import Iconsax from '../../../components/Iconsax'
+import colors from '../../../config/colors'
 
 const HomeScreen: FC = () => {
   const dispatch = useAppDispatch()
@@ -30,9 +35,24 @@ const HomeScreen: FC = () => {
   const [lImages, setImages] =
     useState<Partial<UserImageType>[]>(userImages)
 
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentUserImageIndex, setCurrentUserImageIndex] =
+    useState<number>()
+
+  const openGallery = () => setIsOpen(true)
+  const closeGallery = () => {
+    setIsOpen(false)
+    return true
+  }
+
   //handlers
-  const handleAvatarPressed = (userImage: Partial<UserImageType>) => {
+  const handleAvatarPressed = async (
+    userImage: Partial<UserImageType>,
+    currentIndex: number,
+  ) => {
     dispatch(SetSeen(userImage))
+    await setCurrentUserImageIndex(currentIndex)
+    await openGallery()
   }
 
   const handleImagePressed = (userImage: Partial<UserImageType>) => {
@@ -58,11 +78,23 @@ const HomeScreen: FC = () => {
     setUserImages(userImages)
     setImages(userImages)
   }, [userImages])
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      closeGallery,
+    )
+    return () => backHandler.remove()
+  }, [])
+
   //renders
-  const AvatarWithUserName: FC = (props: Partial<UserImageType>) => (
+  const AvatarWithUserName: FC = (
+    props: Partial<UserImageType>,
+    index: number,
+  ) => (
     <View style={styles.userAvatarStyle}>
       <Avatar
-        onPress={() => handleAvatarPressed(props)}
+        onPress={() => handleAvatarPressed(props, index)}
         isSeen={props?.isSeen}
         thumb={
           props?.isSeen
@@ -89,9 +121,9 @@ const HomeScreen: FC = () => {
           data={data}
           recalculateHiddenLayout
           horizontal
-          renderItem={({ item }: any) => (
-            <AvatarWithUserName {...item} />
-          )}
+          renderItem={({ item, index }: any) =>
+            AvatarWithUserName(item, index)
+          }
         />
       </View>
     )
@@ -130,6 +162,28 @@ const HomeScreen: FC = () => {
       <UsersHeaderList data={lUserImages} />
       <ImageSearcherField />
       <UsersBodyList data={lImages} />
+      <ImageGallery
+        close={closeGallery}
+        isOpen={isOpen}
+        hideThumbs
+        initialIndex={currentUserImageIndex}
+        renderHeaderComponent={() => (
+          <TouchableRipple
+            onPress={closeGallery}
+            style={styles.closeGalleryContainer}
+          >
+            <Iconsax
+              name="CloseCircle"
+              size={32}
+              color={colors.white}
+            />
+          </TouchableRipple>
+        )}
+        images={lUserImages?.map((userImage: any) => ({
+          ...userImage,
+          url: userImage?.urls?.regular,
+        }))}
+      />
     </SafeAreaView>
   )
 }

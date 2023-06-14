@@ -91,7 +91,7 @@ const HomeScreen: FC = () => {
   }, [])
 
   //renders
-  const AvatarWithUserName: FC = (
+  const AvatarWithUserNameRender: FC = (
     props: Partial<UserImageType>,
     index: number,
   ) => (
@@ -115,7 +115,7 @@ const HomeScreen: FC = () => {
     </View>
   )
 
-  const UsersHeaderList = (props: any) => {
+  const UsersHeaderListRender = (props: any) => {
     const { data } = props
     return (
       <View style={styles.userHeaderListContainer}>
@@ -125,21 +125,21 @@ const HomeScreen: FC = () => {
           recalculateHiddenLayout
           horizontal
           renderItem={({ item, index }: any) =>
-            AvatarWithUserName(item, index)
+            AvatarWithUserNameRender(item, index)
           }
         />
       </View>
     )
   }
 
-  const ImageSearcherField = () => (
+  const ImageSearcherRender = () => (
     <SearchField
       onTyping={handleImageSearch}
       placeholder="Search an image"
     />
   )
 
-  const UsersBodyList = (props: any) => {
+  const UsersBodyListRender = (props: any) => {
     const { data } = props
     return (
       <MyList
@@ -163,9 +163,9 @@ const HomeScreen: FC = () => {
 
   return (
     <SafeAreaView style={commonStyles.container}>
-      <UsersHeaderList data={lUserImages} />
-      {ImageSearcherField()}
-      <UsersBodyList data={lImages} />
+      <UsersHeaderListRender data={lUserImages} />
+      {ImageSearcherRender()}
+      <UsersBodyListRender data={lImages} />
       <ImageGallery
         close={closeGallery}
         isOpen={isOpen}

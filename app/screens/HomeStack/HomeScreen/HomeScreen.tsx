@@ -17,13 +17,19 @@ import {
 import Avatar from '../../../components/Avatar'
 import commonStyles from '../../../config/commonStyles'
 import MyText from '../../../components/MyText'
-import { ALIGN, DETAIL_SCREEN } from '../../../config/constants'
+import {
+  ALIGN,
+  DETAIL_SCREEN,
+  width,
+} from '../../../config/constants'
 import MyList from '../../../components/MyList'
 import styles from './styles'
 import ImageItem from '../../../components/ImageItem/ImageItem'
 import SearchField from '../../../components/SearchField'
 import Iconsax from '../../../components/Iconsax'
 import colors from '../../../config/colors'
+import { loader } from '../../../config/animations'
+import Loader from '../../../components/Loader'
 
 const HomeScreen: FC = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
@@ -37,6 +43,7 @@ const HomeScreen: FC = ({ navigation }: any) => {
     useState<Partial<UserImageType>[]>(userImages)
 
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   const [currentUserImageIndex, setCurrentUserImageIndex] =
     useState<number>(0)
   const [currentUserImageItem, setCurrentUserImage] =
@@ -77,7 +84,14 @@ const HomeScreen: FC = ({ navigation }: any) => {
 
   //useEffects
   useEffect(() => {
+    setLoading(true)
     dispatch(ReqGetUserImages())
+      .then(() => {
+        setLoading(false)
+      })
+      .catch(() => {
+        setLoading(false)
+      })
   }, [])
 
   useEffect(() => {
@@ -122,18 +136,30 @@ const HomeScreen: FC = ({ navigation }: any) => {
     const { data } = props
     return (
       <View style={styles.userHeaderListContainer}>
-        <MyList
-          useFlatList
-          data={data}
-          recalculateHiddenLayout
-          horizontal
-          renderItem={({ item, index }: any) =>
-            AvatarWithUserNameRender(item, index)
-          }
-        />
+        {isLoading ? (
+          <Loader size={100} isLoading source={loader} />
+        ) : (
+          <MyList
+            useFlatList
+            data={data}
+            recalculateHiddenLayout
+            horizontal
+            renderItem={({ item, index }: any) =>
+              AvatarWithUserNameRender(item, index)
+            }
+          />
+        )}
       </View>
     )
   }
+  const ImageFullScreenHeaderRender = () => (
+    <TouchableRipple
+      onPress={closeGallery}
+      style={styles.closeGalleryContainer}
+    >
+      <Iconsax name="CloseCircle" size={32} color={colors.white} />
+    </TouchableRipple>
+  )
 
   const ImageSearcherRender = () => (
     <SearchField
@@ -145,22 +171,29 @@ const HomeScreen: FC = ({ navigation }: any) => {
   const UsersBodyListRender = (props: any) => {
     const { data } = props
     return (
-      <MyList
-        useFlatList
-        data={data}
-        removeClippedSubviews={false}
-        keyboardShouldPersistTaps="never"
-        recalculateHiddenLayout
-        numColumns={2}
-        renderItem={({ item }: any) => (
-          <ImageItem
-            image={item?.urls?.regular}
-            name={`@${item?.user?.username?.toLowerCase()}`}
-            date={item?.createdAt}
-            onPress={() => handleImagePressed(item)}
+      <View style={styles?.container}>
+        {isLoading ? (
+          <Loader size={width} isLoading source={loader} />
+        ) : (
+          <MyList
+            isFirstTimeLoading={data?.length === 0}
+            useFlatList
+            data={data}
+            removeClippedSubviews={false}
+            keyboardShouldPersistTaps="never"
+            recalculateHiddenLayout
+            numColumns={2}
+            renderItem={({ item }: any) => (
+              <ImageItem
+                image={item?.urls?.regular}
+                name={`@${item?.user?.username?.toLowerCase()}`}
+                date={item?.createdAt}
+                onPress={() => handleImagePressed(item)}
+              />
+            )}
           />
         )}
-      />
+      </View>
     )
   }
 
@@ -174,18 +207,7 @@ const HomeScreen: FC = ({ navigation }: any) => {
         isOpen={isOpen}
         hideThumbs
         initialIndex={currentUserImageIndex}
-        renderHeaderComponent={() => (
-          <TouchableRipple
-            onPress={closeGallery}
-            style={styles.closeGalleryContainer}
-          >
-            <Iconsax
-              name="CloseCircle"
-              size={32}
-              color={colors.white}
-            />
-          </TouchableRipple>
-        )}
+        renderHeaderComponent={ImageFullScreenHeaderRender}
         images={lUserImages?.map((userImage: any) => ({
           ...userImage,
           url: userImage?.urls?.regular,

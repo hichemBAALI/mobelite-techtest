@@ -19,8 +19,12 @@ and mostly depends on the different libraries listed in the [package.json]
 
 ### Build
 
-- Android: `yarn run-android`
-- iOS: `yarn run-ios`
+- Android: `yarn run-android-[env]`
+- iOS: `yarn run-ios-[env]`
+- Ex: To build the app with the development env on Android just run:
+  `yarn run-android-stg` for debug
+  OR
+  `run-android-dev-assemble` for release
 
 ## Git workflow
 
@@ -29,12 +33,11 @@ and mostly depends on the different libraries listed in the [package.json]
 The different kinds of branches:
 
 - main - production ready versions.
-- staging - latest development version,
 - develop - latest new design progression
 
 ## Code Style
 
-We use the eslint-prettier config with a custom code style profile.
+We use the eslint-prettier + prettier config with a custom code style profile.
 
 ## Android Signing configuration for release
 
